@@ -343,11 +343,11 @@ open class CameraManager: NSObject, AVCaptureFileOutputRecordingDelegate, UIGest
     
     fileprivate var sessionQueue: DispatchQueue = DispatchQueue(label: "CameraSessionQueue", attributes: [])
     
-    fileprivate lazy var frontCameraDevice: AVCaptureDevice? = {
+    lazy var frontCameraDevice: AVCaptureDevice? = {
         AVCaptureDevice.videoDevices.filter { $0.position == .front }.first
     }()
     
-    fileprivate lazy var backCameraDevice: AVCaptureDevice? = {
+    lazy var backCameraDevice: AVCaptureDevice? = {
         AVCaptureDevice.videoDevices.filter { $0.position == .back }.first
     }()
     
