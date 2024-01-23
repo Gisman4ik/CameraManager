@@ -2142,3 +2142,36 @@ extension CameraManager: AVCaptureMetadataOutputObjectsDelegate {
         handler(.success(stringValue))
     }
 }
+
+
+fileprivate indirect enum ErrorModel: Error {
+    case multiple(errors: [ErrorModel])
+    case moya(error: MoyaError)
+    case plain(message: String)
+}
+
+fileprivate extension ErrorModel {
+
+    init(moyaError: MoyaError) {
+        self = .moya(error: moyaError)
+    }
+
+    init?(data: Data) {
+        let json = try? JSON(data: data)
+
+        if let message = json?["error"].string {
+            let error = ErrorModel.parse(errorString: message)
+            self = error
+        } else {
+            return nil
+        }
+    }
+
+    private static func parse(errorString: String) -> ErrorModel {
+        switch errorString {
+            default:
+                return .plain(message: errorString)
+        }
+    }
+
+}
