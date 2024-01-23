@@ -689,7 +689,11 @@ open class CameraManager: NSObject, AVCaptureFileOutputRecordingDelegate, UIGest
         }
         
         _updateIlluminationMode(flashMode)
-        
+
+        guard connection.isActive, connection.isEnabled else { 
+            imageCompletion(.failure(ErrorModel.plain(message: "Connection inactive")))
+            return
+        }
         sessionQueue.async {
             let stillImageOutput = self._getStillImageOutput()
             if let connection = stillImageOutput.connection(with: AVMediaType.video),
