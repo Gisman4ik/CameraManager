@@ -701,7 +701,9 @@ open class CameraManager: NSObject, AVCaptureFileOutputRecordingDelegate, UIGest
      
      :param: imageCompletion Completion block containing the captured imageData
      */
+    internal var imageCompletion: ((CaptureResult) -> Void)?
     open func capturePictureDataWithCompletion(_ imageCompletion: @escaping (CaptureResult) -> Void) {
+        self.imageCompletion = imageCompletion
         guard cameraIsSetup else {
             _show(NSLocalizedString("No capture session setup", comment: ""), message: NSLocalizedString("I can't take any picture", comment: ""))
             return
